@@ -75,7 +75,7 @@ inPat v (PV v') = v == v'
 
 instance Show T where
   show (S s []) = s
-  show (S s ts) = "(" ++ s ++ " " ++ concat (intersperse " " (map show ts)) ++ ")"
+  show (S s ts) = "(" ++ s ++ " " ++ concat (intersperse " " (map show (map eval ts))) ++ ")"
   show (L []) = "(λ.)"
   show (L [(p,t)]) = "(λ" ++ show p ++ ". " ++ show t ++ ")"
   show (L cs) = "(mλ" ++ concat (intersperse " " (map (\(p,t) -> "(λ" ++ show p ++ ". " ++ show t ++ ")") cs)) ++ ")"
@@ -113,7 +113,5 @@ two = A (S "O" []) one
 three = A (S "I" []) one
 four = S "O" [S "O" [one]]
 
-full :: T -> T
-full (S s []) = S s []
-full (S s ts) = S s (map (full . eval) ts)
-full (L cs) = L cs
+-- let ones = 1 : ones in ones
+ones = (A y (L [(PV "ones", (A (A (S ":" []) (S "1" [])) (V "ones")))]))
