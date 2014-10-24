@@ -89,16 +89,8 @@ instance Show P where
   show (PS s ps) = "(" ++ show s ++ " " ++ concat (intersperse " " (map show ps)) ++ ")"
   show (PV v) = v
 
--- total function which only does one step at a time
--- eval = iterate eval' until we reach weak head normal form, or diverge
-eval' :: T -> T
-eval' = id
-
--- the one step apply takes the lambda term rather than just the
--- pattern so it can rewrap after a single step, inside an A
-apply' :: T -> T -> T -> T
-apply' _ _ t = t
-
 -- using this for products for now
-pI :: T
-pI = S "Π" []
+pI :: I
+pI = "Π"
+
+    
